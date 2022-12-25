@@ -1,4 +1,4 @@
 gedit 
-
+gnome-terminal
 
 
