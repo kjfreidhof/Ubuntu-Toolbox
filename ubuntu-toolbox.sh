@@ -1,11 +1,11 @@
 #!/bin/bash 
 
 
-alias inst='sudo apt install'
-alias rem='sudo apt remove'
-alias upd='sudo apt update'
-alias upg='sudo apt upgrade'
-alias snap='sudo snap'
+#alias inst='sudo apt install'
+#alias rem='sudo apt remove'
+#alias upd='sudo apt update'
+#alias upg='sudo apt upgrade'
+#alias snap='sudo snap'
 
 skip()
 {
@@ -28,14 +28,14 @@ echo "5, exit"
 read -rp "= " CHOICE 
 
 if [ "$CHOICE" = 1 ]; then 
-	upd -y
+	sudo apt update -y 
 	$skip_str
 elif [ "$CHOICE" = 2 ]; then 
-	upg -y 
+	sudo apt upgrade -y 
 	$skip_str
 
 elif [ "$CHOICE" = 3 ]; then
-	upd && upg -y 
+	sudo apt update && sudo apt upgrade -y  
 	$skip_str 
 
 elif [ "$CHOICE" = 4 ]; then
@@ -104,12 +104,12 @@ else
 fi 
 
 
-cat restricted.txt | xargs inst -y  
+cat restricted.txt | xargs apt install -y   
 
-cat build.txt | xargs inst -y 
+cat build.txt | xargs apt install -y
 
 
-cat remove.txt | xargs rem -y 
+cat remove.txt | xargs apt remove -y  
 
 
 add-apt-repository ppa:obsproject/obs-studio
