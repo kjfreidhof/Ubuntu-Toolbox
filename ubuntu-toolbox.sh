@@ -109,7 +109,7 @@ fi
 cat build.txt | xargs apt install -y
 
 
-cat remove.txt | xargs apt remove -y  
+# cat remove.txt | xargs apt remove -y  
 
 
 add-apt-repository ppa:obsproject/obs-studio
@@ -121,6 +121,7 @@ sleep 3
 
 cat gnome.txt | xargs apt install -y 
 
+cat remove.txt | xargs apt remove -y
 
 
 echo "Choose the web browser you want to install?[1|2|3|4|5|6|7|8|9|10|]"
@@ -199,11 +200,24 @@ else
 
 fi
 
-exit 
 
+echo "You need to reboot to see the changes"
+echo "Would you like to reboot now or later? [|1|2|]"
+echo "1, Reboot"
+echo "2, Later"
 
+read -rp "= " CHOICE 
 
+if [ $CHOICE = 1 ]; then
+	echo "Rebooting now in 3 seconds"
+	sleep 3
+	reboot
 
+else
+	echo "Rebooting later...."
+	exit
+
+fi 
 
 
 
