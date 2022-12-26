@@ -149,7 +149,7 @@ elif [ "$CHOICE" = 2 ]; then
 	  echo "Updating the Repos"
 	  sleep 3
 	  apt update -y
-	 apt install chromium -y 
+	  apt install chromium-browser -y 
 
 elif [ "$CHOICE" = 3 ]; then
        	  echo "Installing qutebrowser"

@@ -1,10 +1,10 @@
+mpv
 gnome-tweaks
 python3-pip
 lightdm
 fonts-jetbrains-mono
 aria2
-curl 
-qutebrowser    
+curl     
 neofetch 
 vim 
 htop 
@@ -31,7 +31,6 @@ xubuntu-community-wallpapers-trusty
 xubuntu-community-wallpapers-focal
 xubuntu-community-wallpapers-bionic 
 xubuntu-community-wallpapers
-ukui-wallpapers
 ubuntustudio-wallpapers-xenial
 ubuntustudio-wallpapers-legacy 
 ubuntustudio-wallpapers-jammy
