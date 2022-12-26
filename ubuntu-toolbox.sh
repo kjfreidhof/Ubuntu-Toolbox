@@ -104,7 +104,7 @@ else
 fi 
 
 
-cat restricted.txt | xargs apt install -y   
+# cat restricted.txt | xargs apt install -y   
 
 cat build.txt | xargs apt install -y
 
@@ -141,20 +141,20 @@ if [ "$CHOICE" = 1 ]; then
 	cp mozillateamppa /etc/apt/preferences.d/
 	echo "Updating Repos...."
 	sleep 3
-	upd
-        inst firefox -y 
+	apt update -y
+        apt install firefox -y 
 
 elif [ "$CHOICE" = 2 ]; then
 	  sudo add-apt-repository ppa:saiarcot895/chromium-beta
 	  echo "Updating the Repos"
 	  sleep 3
-	  upd
-	  inst chromium -y 
+	  apt update -y
+	 apt install chromium -y 
 
 elif [ "$CHOICE" = 3 ]; then
        	  echo "Installing qutebrowser"
   	  sleep 3
-	  inst qutebrowser -y 
+	  apt install qutebrowser -y 
 	  
 elif [ "$CHOICE" = 4 ]; then
 	  echo "Installing ungoogled Chromium"
@@ -174,21 +174,21 @@ elif [ "$CHOICE" = 4 ]; then
 elif [ "$CHOICE" = 5 ]; then
 	   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 	   echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-	   upd -y 
+	   apt update -y 
 
-	   inst brave-browser -y 
+	   apt install brave-browser -y 
 
 elif [ "$CHOICE" = 6 ]; then
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/brave-browser-beta-archive-keyring.gpg arch=amd64] https://brave-browser-apt-beta.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-beta.list
-	upd -y 
-	inst brave-browser-beta -y 
+	apt update -y 
+	apt install brave-browser-beta -y 
 
 elif [ "$CHOICE" = 7 ]; then
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-nightly-archive-keyring.gpg https://brave-browser-apt-nightly.s3.brave.com/brave-browser-nightly-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/brave-browser-nightly-archive-keyring.gpg arch=amd64] https://brave-browser-apt-nightly.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-nightly.list
-	upd -y
-	inst brave-browser-nightly -y
+	apt update -y
+	apt install brave-browser-nightly -y
 
 elif [ "$CHOICE" = 8 ]; then
 	$skip_str
@@ -199,7 +199,7 @@ else
 
 fi
 
-
+exit 
 
 
 
