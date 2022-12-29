@@ -1,3 +1,4 @@
+gnome-shell-extension-manager
 mpv
 gnome-tweaks
 python3-pip
