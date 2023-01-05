@@ -121,7 +121,38 @@ sleep 3
 
 cat gnome.txt | xargs apt install -y 
 
-cat remove.txt | xargs apt remove -y
+
+echo "What do you want to remove Normal or minimal?[1|2|3|4|]"
+echo "1, Normali - (you choose th normal installation on the live cd)"
+echo "2, minimal - (or you choose the minimal installation on the live cd)"
+echo "3  None"
+echo "4, Exit"
+
+read -rp "= " CHOICE
+
+if [ "$CHOICE" = 1 ]; then
+	echo "Removing packages from the normal environment"
+	sleep 3
+	cat remove-normal.txt | xargs apt remove -y
+	$skip_str
+
+elif [ "$CHOICE" = 2 ]; then
+	echo "Removing packages from the minimal environment"
+	sleep 3
+	cat remove-minimal.txt | xargs apt remove -y
+	$skip_str
+
+elif [ "$CHOICE" = 3 ]; then
+	echo "Do nothing continuing"
+	sleep 3
+	$skip_str
+else
+	echo "Exiting....."
+	sleep 3
+	exit
+
+fi
+
 
 
 echo "Choose the web browser you want to install?[1|2|3|4|5|6|7|8|9|10|]"
