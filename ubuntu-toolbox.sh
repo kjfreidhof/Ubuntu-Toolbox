@@ -1,172 +1,140 @@
-#!/bin/bash 
+#!/bin/sh 
+fire='sudo apt remove firefox -y'
+#inst='sudo apt install -y'
+build='cat build.txt | sudo xargs apt install -y'
+obs='sudo add-apt-repository ppa:obsproject/obs-studio && sudo apt update -y && sudo apt install obs-studio -y'
+kdenlive='sudo add-apt-repository ppa:kdenlive/kdenlive-stable &&
+sudo apt update -y && sudo apt install kdenlive -y'
+gnome='cat gnome.txt | sudo xargs apt install -y'
+rem='sudo apt remove -y'
+#upd='sudo apt update -y'
+#upg='sudo apt upgrade -y'
+upgy='sudo apt update && sudo apt upgrade -y'
+#snap='sudo snap'
 
 
-#alias inst='sudo apt install'
-#alias rem='sudo apt remove'
-#alias upd='sudo apt update'
-#alias upg='sudo apt upgrade'
-#alias snap='sudo snap'
+for i in 1 2 3 4 5
+do
+	echo "$i Begining to make updates and upgrades this shouldnt take long"
+	sleep $i
+	$upgy
+	continue 
 
-skip()
-{
-        echo "This process will continue : $1"
-        continue
+done
 
 
-
-
-}
-
-echo "do you want to update upgrade or do both before you procced [1|2|3|4|5|]"
-
-echo "1, update"
-echo "2, upgrade"
-echo "3, both"
-echo "4, none and continue"
-echo "5, exit"
-
-read -rp "= " CHOICE 
-
-if [ "$CHOICE" = 1 ]; then 
-	sudo apt update -y 
-	$skip_str
-elif [ "$CHOICE" = 2 ]; then 
-	sudo apt upgrade -y 
-	$skip_str
-
-elif [ "$CHOICE" = 3 ]; then
-	sudo apt update && sudo apt upgrade -y  
-	$skip_str 
-
-elif [ "$CHOICE" = 4 ]; then
-	$skip_str
-
-else
-	exit 
-
-fi
-
-echo "Would you like to continue to make changes to your system? [y|n]"
+echo "Do you want to remove snaps from this system?"
 echo "y, Yes"
 echo "n, No"
 
-read -rp "= " CHOICE 
+read CHOICE
 
-if [ "$CHOICE" = y ]; then 
-	echo "Making changes to ubuntu....."
-	sleep 5
-	$skip_str
-else
-	echo "exiting....."
-	exit 
+if [ "$CHOICE" =  y ]
+	for i in 5
+	do
+		echo "Removing snapd"
+		sleep $i
+		$rem snapd
+		continue
 
-fi
+	done
 
+elif [ "$CHOICE" = n ]; then
+	for i in 5
+	do
+		echo "Not Removing snapd"
+		sleep $i
+		continue
 
-
-echo "removing the snap version of firefox"
-snap remove firefox 
-sleep 3 
-
-
-echo "Would you like to remove the snap store and snaps or just the snap store [|1|2|3|4|]"
-echo "1, snap-store"
-echo "2, both"
-echo "3, none"
-echo "4, exit"
-
-read -rp "= " CHOICE
-
-if [ "$CHOICE" = 1 ]; then 
-	echo "Removing the snap-store"
-	sleep 3
-	snap remove snap-store
-	$skip_str
-
-elif [ "$CHOICE" = 2 ]; then
-	echo "removing both"
-	sleep 3
-	snap remove snap-store 
-	rem snapd -y
-	$skip_str
-
-elif [ "$CHOICE" = 3 ]; then
-       echo "Remove none...."
-       sleep 3
-       $skip_str       
-
+	done
 
 else
 	echo "Exiting...."
-	sleep 3
 	exit
 
-fi 
+
+fi
 
 
-# cat restricted.txt | xargs apt install -y   
+echo "Installing build dependinces"
+sleep 3
+$build
 
-cat build.txt | xargs apt install -y
+echo "Do you want to install obs-studio and kdenlive?"
+echo "y, Yes"
+echo "n, No"
 
+read CHOICE
 
-# cat remove.txt | xargs apt remove -y  
+if [ "$CHOICE"= y ]; then
+	for i in 5
+	do
+		echo "installing obs and kdenlive"
+		sleep $i
+		$obs && $kdenlive
+		continue
 
+	done
 
-add-apt-repository ppa:obsproject/obs-studio
-apt update 
+elif [ "$CHOICE"= n ]; then
+	for i in 5
+	do
+		echo "Exiting...."
+		sleep $i
+		continue
+	done
 
-add-apt-repository ppa:kdenlive/kdenlive-stable 
-apt update
-sleep 3 
-
-cat gnome.txt | xargs apt install -y 
-
-
-echo "What do you want to remove Normal or minimal?[1|2|3|4|]"
-echo "1, Normali - (you choose th normal installation on the live cd)"
-echo "2, minimal - (or you choose the minimal installation on the live cd)"
-echo "3  None"
-echo "4, Exit"
-
-read -rp "= " CHOICE
-
-if [ "$CHOICE" = 1 ]; then
-	echo "Removing packages from the normal environment"
-	sleep 3
-	cat remove-normal.txt | xargs apt remove -y
-	$skip_str
-
-elif [ "$CHOICE" = 2 ]; then
-	echo "Removing packages from the minimal environment"
-	sleep 3
-	cat remove-minimal.txt | xargs apt remove -y
-	$skip_str
-
-elif [ "$CHOICE" = 3 ]; then
-	echo "Do nothing continuing"
-	sleep 3
-	$skip_str
 else
-	echo "Exiting....."
-	sleep 3
+	echo "Exiting...."
 	exit
 
 fi
 
 
+echo "Installing the full distro...."
+sleep 3
+$gnome
 
+echo "Do you want to remove firefox?"
+echo "y, Yes"
+echo "n, No"
+read Reply
+
+if [ "$Reply" = y ]; then
+	for i in 5
+	do 
+	     echo "Removing firefox"
+	     sleep $i
+	     $fire
+
+	done
+
+elif [ "$Reply" = n ]; then
+	for i in 5
+	do
+		echo "Not Removing firefox"
+		sleep $i
+		continue
+
+	done
+
+else
+	echo "Exiting...."
+	exit
+
+fi
+	      
 echo "Choose the web browser you want to install?[1|2|3|4|5|6|7|8|9|10|]"
 echo "1, FireFox"
 echo "2, chromium"
 echo "3, qutebrowser"
-echo "4, ungoogled chromium - decrypecated"
-echo "5, Brave"
-echo "6, Brave-beta"
-echo "7, Brave-dev"
-echo "8, continue without any browser"
-echo "9, exit"
+echo "4, Brave"
+echo "5, Brave-beta"
+echo "6, Brave-dev"
+echo "7, continue without any browser"
+echo "8, exit"
 
-read -rp "= " CHOICE
+read CHOICE
 
 if [ "$CHOICE" = 1 ]; then
 	sudo add-apt-repository ppa:mozillateam/ppa
@@ -188,41 +156,27 @@ elif [ "$CHOICE" = 3 ]; then
   	  sleep 3
 	  apt install qutebrowser -y 
 	  
-elif [ "$CHOICE" = 4 ]; then
-	  echo "Installing ungoogled Chromium"
-  	  aria2c https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium-common-dbgsym_100.0.4896.127-1.unportable1_amd64.deb
-	 aria2c https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium-common_100.0.4896.127-1.unportable1_amd64.deb
-	aria2c  https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium-dbgsym_100.0.4896.127-1.unportable1_amd64.deb
-	aria2c https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium-driver-dbgsym_100.0.4896.127-1.unportable1_amd64.deb
-	aria2c https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium-driver_100.0.4896.127-1.unportable1_amd64.deb
-	aria2c https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium-l10n_100.0.4896.127-1.unportable1_all.deb
-	aria2c https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium-sandbox-dbgsym_100.0.4896.127-1.unportable1_amd64.deb
-	aria2c https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium-sandbox_100.0.4896.127-1.unportable1_amd64.deb
-	aria2c https://github.com/clickot/ungoogled-chromium-binaries/releases/download/100.0.4896.127-1/ungoogled-chromium_100.0.4896.127-1.unportable1_amd64.deb
-	sudo dpkg -i *.deb
-        echo "Finshed installing...."
-	sleep 3 
 	
-elif [ "$CHOICE" = 5 ]; then
+elif [ "$CHOICE" = 4 ]; then
 	   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 	   echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 	   apt update -y 
 
 	   apt install brave-browser -y 
 
-elif [ "$CHOICE" = 6 ]; then
+elif [ "$CHOICE" = 5 ]; then
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/brave-browser-beta-archive-keyring.gpg arch=amd64] https://brave-browser-apt-beta.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-beta.list
 	apt update -y 
 	apt install brave-browser-beta -y 
 
-elif [ "$CHOICE" = 7 ]; then
+elif [ "$CHOICE" = 6 ]; then
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-nightly-archive-keyring.gpg https://brave-browser-apt-nightly.s3.brave.com/brave-browser-nightly-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/brave-browser-nightly-archive-keyring.gpg arch=amd64] https://brave-browser-apt-nightly.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-nightly.list
 	apt update -y
 	apt install brave-browser-nightly -y
 
-elif [ "$CHOICE" = 8 ]; then
+elif [ "$CHOICE" = 7 ]; then
 	$skip_str
 
 
@@ -237,7 +191,7 @@ echo "Would you like to reboot now or later? [|1|2|]"
 echo "1, Reboot"
 echo "2, Later"
 
-read -rp "= " CHOICE 
+read CHOICE 
 
 if [ $CHOICE = 1 ]; then
 	echo "Rebooting now in 3 seconds"
